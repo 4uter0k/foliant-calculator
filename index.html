@@ -6,236 +6,129 @@
     <title>Калькулятор фолиантов</title>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            background: #f5f5f5;
             padding: 20px;
+            line-height: 1.6;
         }
         
         .container {
             max-width: 1000px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 25px;
+        h1 {
             text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
         }
         
-        .header h1 {
-            font-size: 2.2em;
+        .branch-selector {
+            margin-bottom: 20px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 16px;
             margin-bottom: 10px;
         }
         
-        .tabs {
-            display: flex;
-            background: #34495e;
-            overflow-x: auto;
-        }
-        
-        .tab {
-            padding: 15px 25px;
-            color: white;
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-size: 14px;
-            white-space: nowrap;
-            transition: background 0.3s;
-            flex-shrink: 0;
-        }
-        
-        .tab.active {
-            background: #2c3e50;
-            font-weight: bold;
-        }
-        
-        .tab:hover {
-            background: #3a5169;
-        }
-        
-        .calculator {
-            padding: 20px;
-        }
-        
-        .research-table {
-            width: 100%;
-            border-collapse: collapse;
+        .research-list {
             margin-bottom: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .research-table th {
-            background: #34495e;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-        
-        .research-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .research-table tr:hover {
-            background: #e3f2fd;
-        }
-        
-        .progress-input {
-            width: 60px;
-            padding: 8px;
-            border: 2px solid #ddd;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            text-align: center;
+            padding: 10px;
+        }
+        
+        .research-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 5px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .research-name {
+            flex: 1;
             font-size: 14px;
-            transition: border-color 0.3s;
+            padding-right: 10px;
         }
         
-        .progress-input:focus {
-            outline: none;
-            border-color: #3498db;
+        .research-input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+            text-align: center;
         }
         
-        .remaining {
+        .research-remaining {
+            width: 80px;
+            text-align: right;
             font-weight: bold;
             color: #e74c3c;
         }
         
-        .summary {
+        .total {
             background: #2ecc71;
             color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 5px;
             text-align: center;
             margin-top: 20px;
         }
         
-        .summary h3 {
-            font-size: 1.3em;
-            margin-bottom: 10px;
-        }
-        
-        .total-folians {
-            font-size: 2.5em;
+        .total-amount {
+            font-size: 24px;
             font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-reset {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .btn-reset:hover {
-            background: #c0392b;
-        }
-        
-        .btn-save {
-            background: #3498db;
-            color: white;
-        }
-        
-        .btn-save:hover {
-            background: #2980b9;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-            }
-            
-            .research-table {
-                font-size: 14px;
-            }
-            
-            .progress-input {
-                width: 50px;
-            }
-            
-            .tabs {
-                flex-wrap: wrap;
-            }
-            
-            .tab {
-                padding: 10px 15px;
-                font-size: 12px;
-            }
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🧙‍♂️ Калькулятор фолиантов</h1>
-            <p>Рассчитайте необходимое количество фолиантов для завершения исследований</p>
+        <h1>Калькулятор фолиантов</h1>
+        
+        <div class="branch-selector">
+            <select id="branchSelect">
+                <option value="familiars">Битва фамильяров</option>
+                <option value="sigils">Сигилы</option>
+                <option value="wonders">Битвы за чудеса</option>
+                <option value="ammunition">Амуниция</option>
+                <option value="wonder_upgrade">Улучшение битв за чудеса</option>
+                <option value="countertypes">Контртипы</option>
+            </select>
         </div>
         
-        <div class="tabs" id="categoryTabs">
-            <!-- Tabs will be generated by JavaScript -->
+        <div class="research-list" id="researchList">
+            <!-- Список исследований будет здесь -->
         </div>
         
-        <div class="calculator">
-            <table class="research-table">
-                <thead>
-                    <tr>
-                        <th>Исследование</th>
-                        <th width="120">Текущий уровень</th>
-                        <th width="150">Осталось фолиантов</th>
-                    </tr>
-                </thead>
-                <tbody id="researchTable">
-                    <!-- Данные будут добавлены через JavaScript -->
-                </tbody>
-            </table>
-            
-            <div class="summary">
-                <h3>Всего нужно фолиантов для категории:</h3>
-                <div class="total-folians" id="totalFolians">0</div>
-                
-                <div class="controls">
-                    <button class="btn btn-reset" onclick="resetCategory()">Сбросить категорию</button>
-                    <button class="btn btn-save" onclick="saveProgress()">Сохранить прогресс</button>
-                </div>
-            </div>
+        <div class="total">
+            <div>Всего нужно фолиантов:</div>
+            <div class="total-amount" id="totalAmount">0</div>
         </div>
     </div>
 
     <script>
-        // Полные данные исследований из вашей таблицы
+        // Полные данные всех исследований
         const researchData = {
-            "Битва фамильяров": [
+            familiars: [
                 { name: "Боевой слот фамильяра I", costs: [0,0,0,0,0,0,0,0,0,0] },
                 { name: "Скорость создания пактов III", costs: [0,0,0,0,0,0,0,0,0,0] },
                 { name: "Приручение III", costs: [0,0,0,0,0,0,0,0,0,0] },
@@ -267,8 +160,7 @@
                 { name: "Атк фамильяра", costs: [15,36,58,81,105,146,199,257,319,404] },
                 { name: "Боевой слот фамильяра V", costs: [940,0,0,0,0,0,0,0,0,0] }
             ],
-
-            "Сигилы": [
+            sigils: [
                 { name: "Добыча ресурсов III", costs: [1,2,4,6,8,10,14,18,22,27] },
                 { name: "Скорость ковки", costs: [2,3,4,6,8,11,14,19,24,29] },
                 { name: "Силовая тренировка III", costs: [2,3,5,7,9,12,16,21,26,33] },
@@ -305,8 +197,7 @@
                 { name: "Яростное нападение кавалерия", costs: [15,35,57,81,105,145,198,256,318,403] },
                 { name: "Сигил для украшения", costs: [672,0,0,0,0,0,0,0,0,0] }
             ],
-
-            "Битвы за чудеса": [
+            wonders: [
                 { name: "Чудесный марш", costs: [2,4,7,10,14,18,24,31,38,48] },
                 { name: "Сбор самоцветов II", costs: [3,6,9,12,15,21,29,37,46,58] },
                 { name: "Продовольственный марш III", costs: [3,6,9,12,15,21,29,37,46,58] },
@@ -335,8 +226,7 @@
                 { name: "Атака кавалерии (чудо) II", costs: [14,32,53,76,99,136,186,241,299,378] },
                 { name: "Групповой сбор на чудо II", costs: [17,40,65,92,120,166,226,292,363,459] }
             ],
-
-            "Амуниция": [
+            ammunition: [
                 { name: "Быстрые маневры III", costs: [1,1,2,2,3,4,5,6,8,10] },
                 { name: "Продовольственный марш IV", costs: [1,2,3,5,7,9,12,15,19,24] },
                 { name: "Скорое снабжение III", costs: [1,2,3,5,7,9,12,15,19,24] },
@@ -368,8 +258,7 @@
                 { name: "Светящийся стрелок", costs: [593,0,0,0,0,0,0,0,0,0] },
                 { name: "Светящийся наездник", costs: [593,0,0,0,0,0,0,0,0,0] }
             ],
-
-            "Улучшение битв за чудеса": [
+            wonder_upgrade: [
                 { name: "Участник сбора на чудо", costs: [6,12,19,28,37,50,68,88,109,138] },
                 { name: "Лидерство Атк пехоты II", costs: [7,15,25,36,48,65,88,114,142,180] },
                 { name: "Лидерство Атк осадных орудий II", costs: [7,15,25,36,48,65,88,114,142,180] },
@@ -394,4 +283,104 @@
                 { name: "Защита стрелков (чудо) III", costs: [23,51,84,121,165,222,302,392,486,615] },
                 { name: "Защита кавалерии (чудо) III", costs: [23,51,84,121,165,222,302,392,486,615] },
                 { name: "Проклятие Защ пехоты (чудо)", costs: [32,43,55,74,106,158,264,474,885,1580] },
-                { name: "Проклятие Защ стрелков (чудо)", co
+                { name: "Проклятие Защ стрелков (чудо)", costs: [32,43,55,74,106,158,264,474,885,1580] },
+                { name: "Проклятие Защ кавалерии (чудо)", costs: [32,43,55,74,106,158,264,474,885,1580] },
+                { name: "Проклятие Оз пехоты (чудо)", costs: [42,55,72,96,137,206,343,617,1150,2054] },
+                { name: "Проклятие Оз стрелков (чудо)", costs: [42,55,72,96,137,206,343,617,1150,2054] },
+                { name: "Проклятие Оз кавалерии (чудо)", costs: [42,55,72,96,137,206,343,617,1150,2054] },
+                { name: "Проклятие Атк пехоты (чудо)", costs: [54,72,94,126,180,269,448,806,1504,2686] },
+                { name: "Проклятие Атк стрелков (чудо)", costs: [54,72,94,126,180,269,448,806,1504,2686] },
+                { name: "Проклятие Атк кавалерии (чудо)", costs: [54,72,94,126,180,269,448,806,1504,2686] }
+            ],
+            countertypes: [
+                { name: "Усиление пехоты против стрелков", costs: [17,39,64,92,125,169,230,298,370,468] },
+                { name: "Усиление стрелков против кавалерии", costs: [17,39,64,92,125,169,230,298,370,468] },
+                { name: "Усиление кавалерии против пехоты", costs: [17,39,64,92,125,169,230,298,370,468] }
+            ]
+        };
+
+        let progress = {};
+
+        // Загрузка при старте
+        window.onload = function() {
+            loadProgress();
+            showBranch('familiars');
+            
+            // Обработчик выбора ветки
+            document.getElementById('branchSelect').addEventListener('change', function() {
+                showBranch(this.value);
+            });
+        };
+
+        // Показать ветку исследований
+        function showBranch(branch) {
+            const researchList = document.getElementById('researchList');
+            researchList.innerHTML = '';
+            
+            researchData[branch].forEach((research, index) => {
+                const researchId = ${branch}_${index};
+                const currentProgress = progress[researchId] || 0;
+                const remaining = calculateRemaining(research.costs, currentProgress);
+                
+                const item = document.createElement('div');
+                item.className = 'research-item';
+                item.innerHTML = `
+                    <div class="research-name">${research.name}</div>
+                    <input type="number" min="0" max="10" value="${currentProgress}" 
+                           class="research-input" 
+                           onchange="updateProgress('${researchId}', this.value)">
+                    <div class="research-remaining">${remaining}</div>
+                `;
+                researchList.appendChild(item);
+            });
+            
+            updateTotal(branch);
+        }
+
+        // Расчет остатка фолиантов
+        function calculateRemaining(costs, currentProgress) {
+            if (currentProgress >= 10) return 0;
+            let remaining = 0;
+            for (let i = currentProgress; i < 10; i++) {
+                remaining += costs[i];
+            }
+            return remaining;
+        }
+
+        // Обновление прогресса
+        function updateProgress(researchId, value) {
+            value = Math.min(10, Math.max(0, parseInt(value) || 0));
+            progress[researchId] = value;
+            
+            // Обновляем отображение
+            const branch = document.getElementById('branchSelect').value;
+            showBranch(branch);
+            saveProgress();
+        }
+
+        // Обновление общей суммы
+        function updateTotal(branch) {
+            let total = 0;
+            researchData[branch].forEach((research, index) => {
+                const researchId = ${branch}_${index};
+                const currentProgress = progress[researchId] || 0;
+                total += calculateRemaining(research.costs, currentProgress);
+            });
+            document.getElementById('totalAmount').textContent = total;
+        }
+
+        // Сохранение прогресса
+        function saveProgress() {
+            localStorage.setItem('foliantProgress', JSON.stringify(progress));
+        }
+
+        // Загрузка прогресса
+        function loadProgress() {
+            const saved = localStorage.getItem('foliantProgress');
+            if (saved) {
+                progress = JSON.parse(saved);
+            }
+        }
+    </script>
+</body>
+</html>
